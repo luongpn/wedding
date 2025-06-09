@@ -16,7 +16,10 @@ const Image = ({
   return (
     <motion.div initial={initial} ref={scope} className="h-[130px]">
       <div className="w-fit border-x-6 border-t-6 border-b-12 border-white">
-        <img className="w-[180px] h-[100px]" src={url} />
+        <img
+          className="w-[180px] h-[100px] max-sm:w-[170px] max-sm:h-[90px]"
+          src={url}
+        />
       </div>
     </motion.div>
   );
@@ -78,13 +81,14 @@ const Timeline = () => {
         <hr className={clsx(`w-[200px] text-white`)} />
       </div>
 
-      <div className="flex justify-center gap-10 max-sm:gap-5 max-sm:px-5 mt-2">
+      <div className="flex justify-center gap-10  max-sm:gap-3 max-sm:px-5 mt-2">
         <motion.div
           onViewportEnter={(e) => {
             animate1(
               scope1.current,
               {
                 x: 0,
+                opacity: 100,
               },
               {
                 duration: 0.5,
@@ -95,6 +99,7 @@ const Timeline = () => {
               scope3.current,
               {
                 x: 0,
+                opacity: 100,
               },
               {
                 duration: 0.5,
@@ -106,6 +111,7 @@ const Timeline = () => {
               scope5.current,
               {
                 x: 0,
+                opacity: 100,
               },
               {
                 duration: 0.5,
@@ -117,6 +123,7 @@ const Timeline = () => {
               scope7.current,
               {
                 x: 0,
+                opacity: 100,
               },
               {
                 duration: 0.5,
@@ -129,7 +136,8 @@ const Timeline = () => {
             animate1(
               scope1.current,
               {
-                x: -100,
+                x: -10,
+                opacity: 0.2,
               },
               {
                 duration: 0.5,
@@ -139,7 +147,8 @@ const Timeline = () => {
             animate3(
               scope3.current,
               {
-                x: -100,
+                x: -10,
+                opacity: 0.2,
               },
               {
                 duration: 0.5,
@@ -149,7 +158,8 @@ const Timeline = () => {
             animate5(
               scope5.current,
               {
-                x: -100,
+                x: -10,
+                opacity: 0.2,
               },
               {
                 duration: 0.5,
@@ -159,7 +169,8 @@ const Timeline = () => {
             animate7(
               scope7.current,
               {
-                x: -100,
+                x: -10,
+                opacity: 0.2,
               },
               {
                 duration: 0.5,
@@ -171,14 +182,16 @@ const Timeline = () => {
         >
           <Image
             initial={{
-              x: -100,
+              x: -10,
+              opacity: 0.2,
             }}
             scope={scope1}
             url={"/background.jpg"}
           />
           <Text
             initial={{
-              x: -100,
+              x: -10,
+              opacity: 0.2,
             }}
             scope={scope3}
             year={2019}
@@ -186,14 +199,16 @@ const Timeline = () => {
           />
           <Image
             initial={{
-              x: -100,
+              x: -10,
+              opacity: 0.2,
             }}
             scope={scope5}
             url={"/background.jpg"}
           />
           <Text
             initial={{
-              x: -100,
+              x: -10,
+              opacity: 0.2,
             }}
             scope={scope7}
             year={2024}
@@ -221,6 +236,7 @@ const Timeline = () => {
               scope2.current,
               {
                 x: 0,
+                opacity: 100,
               },
               {
                 duration: 0.5,
@@ -232,6 +248,7 @@ const Timeline = () => {
               scope4.current,
               {
                 x: 0,
+                opacity: 100,
               },
               {
                 duration: 0.5,
@@ -243,6 +260,7 @@ const Timeline = () => {
               scope6.current,
               {
                 x: 0,
+                opacity: 100,
               },
               {
                 duration: 0.5,
@@ -254,6 +272,7 @@ const Timeline = () => {
               scope8.current,
               {
                 x: 0,
+                opacity: 100,
               },
               {
                 duration: 0.5,
@@ -266,7 +285,8 @@ const Timeline = () => {
             animate2(
               scope2.current,
               {
-                x: 100,
+                x: 10,
+                opacity: 0.2,
               },
               {
                 duration: 0.5,
@@ -277,7 +297,8 @@ const Timeline = () => {
             animate4(
               scope4.current,
               {
-                x: 100,
+                x: 10,
+                opacity: 0.2,
               },
               {
                 duration: 0.5,
@@ -287,7 +308,8 @@ const Timeline = () => {
             animate6(
               scope6.current,
               {
-                x: 100,
+                x: 10,
+                opacity: 0.2,
               },
               {
                 duration: 0.5,
@@ -297,7 +319,8 @@ const Timeline = () => {
             animate8(
               scope8.current,
               {
-                x: 100,
+                x: 10,
+                opacity: 0.2,
               },
               {
                 duration: 0.5,
@@ -309,7 +332,8 @@ const Timeline = () => {
         >
           <Text
             initial={{
-              x: 100,
+              x: 10,
+              opacity: 0.2,
             }}
             scope={scope2}
             year={2018}
@@ -317,14 +341,16 @@ const Timeline = () => {
           />
           <Image
             initial={{
-              x: 100,
+              x: 10,
+              opacity: 0.2,
             }}
             scope={scope4}
             url={"/background.jpg"}
           />
           <Text
             initial={{
-              x: 100,
+              x: 10,
+              opacity: 0.2,
             }}
             scope={scope6}
             year={2023}
@@ -332,7 +358,8 @@ const Timeline = () => {
           />
           <Image
             initial={{
-              x: 100,
+              x: 10,
+              opacity: 0.2,
             }}
             scope={scope8}
             url={"/background.jpg"}
