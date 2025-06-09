@@ -2,6 +2,7 @@ import { sectionTextColor } from "@/constants/constants";
 import useUpdateActiveNav from "@/hooks/useUpdateActiveNav";
 import clsx from "clsx";
 import React from "react";
+import { motion } from "motion/react";
 
 const Thank = () => {
   const ref = React.useRef<any>(null);
@@ -10,7 +11,19 @@ const Thank = () => {
   return (
     <div ref={ref} id="thank" className="h-screen flex flex-col">
       <div className="flex-1 flex items-center justify-center flex-col">
-        <div className="w-[300px] h-[276px] relative flex items-center justify-center">
+        <motion.div
+          initial={{
+            opacity: 0,
+          }}
+          whileInView={{
+            opacity: 100,
+            transition: {
+              duration: 0.8,
+              ease: "easeInOut",
+            },
+          }}
+          className="w-[300px] h-[276px] relative flex items-center justify-center"
+        >
           <img
             style={{
               position: "absolute",
@@ -24,18 +37,31 @@ const Thank = () => {
             src={"/anhcuoi.webp"}
             className="w-[225px] h-[225px] rounded-full"
           />
-        </div>
+        </motion.div>
 
-        <h2
-          className={clsx(
-            `font-[Imperial_Script] text-[55px] text-center`,
-            sectionTextColor ? sectionTextColor : ""
-          )}
+        <motion.div
+          initial={{
+            y: 100,
+          }}
+          whileInView={{
+            y: 0,
+            transition: {
+              duration: 0.8,
+              ease: "easeInOut",
+            },
+          }}
+          className={clsx(``, sectionTextColor ? sectionTextColor : "")}
         >
-          Thank you
-        </h2>
+          <h2 className="font-[Imperial_Script] text-[55px] text-center">
+            Thank you
+          </h2>
+          <p className="text-[14px] text-center w-[300px]">
+            Sự hiện diện của Quý vị là niềm vinh hạnh cho gia đình chúng tôi.
+            Chân thành cảm ơn!
+          </p>
+        </motion.div>
       </div>
-      <div className="h-[20px] text-center text-white bg-red-600">
+      <div className="py-1 text-center text-white bg-red-600 text-[13px]">
         Made by akira
       </div>
     </div>

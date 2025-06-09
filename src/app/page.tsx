@@ -40,10 +40,11 @@ export default function Home() {
       <div className="fixed bottom-10 left-2 z-10">
         <div
           onClick={() => setIsVolumeOn(!isVolumeOn)}
-          className="bg-pink-400 text-white w-[40px] h-[40px] text-[20px] rounded-full flex items-center justify-center"
+          className="bg-pink-400 cursor-pointer outline-1 outline-pink-400 outline-offset-1  text-white w-[40px] h-[40px] text-[20px] rounded-full flex items-center justify-center"
         >
           {isVolumeOn ? <CiVolumeHigh /> : <CiVolumeMute />}
         </div>
+
         <ReactAudioPlayer
           ref={audioRef}
           style={{
