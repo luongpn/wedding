@@ -2,10 +2,21 @@
 import React from "react";
 import { motion } from "motion/react";
 import useUpdateActiveNav from "@/hooks/useUpdateActiveNav";
+import AxiosClient from "@/apis/AxiosClient";
+import dayjs from "dayjs";
 
 const Hero = () => {
   const ref = React.useRef<any>(null);
   useUpdateActiveNav(ref);
+
+  const [data, setData] = React.useState<any>(null);
+  console.log("🚀 ~ BrideAndGroom ~ data:", data);
+
+  React.useEffect(() => {
+    AxiosClient.get("/api/config").then((res) => {
+      setData(res);
+    });
+  }, []);
 
   return (
     <div
@@ -36,7 +47,9 @@ const Hero = () => {
           }}
           className="text-[18px]"
         >
-          04.04.2024
+          {data?.date?.text
+            ? dayjs(data?.date?.text, "YYYY-MM-DD").format("DD.MM.YYYY")
+            : "04.04.2024"}
         </motion.span>
       </div>
 
@@ -53,7 +66,7 @@ const Hero = () => {
           }}
           className=""
         >
-          Huyền Trang
+          {data?.bride?.name || "Huyền Trang"}
         </motion.p>
         <p>&</p>
         <motion.p
@@ -67,7 +80,7 @@ const Hero = () => {
             duration: 0.5,
           }}
         >
-          Huỳnh Đức
+          {data?.groom?.name || "Huỳnh Đức"}
         </motion.p>
       </div>
     </div>

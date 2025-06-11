@@ -30,18 +30,25 @@ const Text = ({
   initial,
   year,
   text,
+  align = "left",
 }: {
   scope: any;
   initial: any;
   year: any;
   text: string;
+  align?: string;
 }) => {
   return (
     <motion.div initial={initial} ref={scope} className="h-[130px]">
-      <p className="text-[16px] text-white tracking-widest font-[550]">
+      <p
+        className={clsx(
+          "text-[16px] text-white tracking-widest font-[550]",
+          align == "left" ? "text-left" : "text-right"
+        )}
+      >
         {year}
       </p>
-      <p className="text-white">{text}</p>
+      <p className={clsx("text-white")}>{text}</p>
     </motion.div>
   );
 };
@@ -196,6 +203,7 @@ const Timeline = () => {
             scope={scope3}
             year={2019}
             text="Hẹn hò"
+            align="right"
           />
           <Image
             initial={{
@@ -213,6 +221,7 @@ const Timeline = () => {
             scope={scope7}
             year={2024}
             text="Ngày chung đôi"
+            align="right"
           />
         </motion.div>
 

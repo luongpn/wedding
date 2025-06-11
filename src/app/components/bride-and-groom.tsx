@@ -4,8 +4,17 @@ import { motion } from "motion/react";
 import { sectionTextColor } from "@/constants/constants";
 import clsx from "clsx";
 import useUpdateActiveNav from "@/hooks/useUpdateActiveNav";
+import AxiosClient from "@/apis/AxiosClient";
 
-const BrideGroom = ({ isGroom, name }: { isGroom: any; name: any }) => {
+const BrideGroom = ({
+  isGroom,
+  name,
+  image,
+}: {
+  isGroom: any;
+  name: any;
+  image: any;
+}) => {
   return (
     <div>
       <div>
@@ -54,6 +63,16 @@ const BrideAndGroom = () => {
   const ref = React.useRef<any>(null);
   useUpdateActiveNav(ref);
 
+  const [data, setData] = React.useState<any>(null);
+  console.log("🚀 ~ BrideAndGroom ~ data:", data);
+
+  React.useEffect(() => {
+    AxiosClient.get("/api/config").then((res) => {
+      console.log("🚀 ~ AxiosClient.get ~ res:", res);
+      setData(res);
+    });
+  }, []);
+
   return (
     <div ref={ref} id="bride_and_groom" className="py-[20px] ">
       <h2
@@ -75,7 +94,11 @@ const BrideAndGroom = () => {
       </div>
 
       <div className="flex justify-center flex-wrap gap-[100px] max-sm:gap-[10px] mt-20">
-        <BrideGroom isGroom={false} name={"Ngô Huyền Trang"} />
+        <BrideGroom
+          isGroom={false}
+          name={data?.bride?.text}
+          image={data?.bride?.image}
+        />
 
         <svg
           className={clsx("mt-[150px] max-sm:mt-[40px]")}
@@ -98,7 +121,11 @@ const BrideAndGroom = () => {
             d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
           ></motion.path>
         </svg>
-        <BrideGroom isGroom={true} name={"Huỳnh Đức"} />
+        <BrideGroom
+          isGroom={true}
+          name={data?.groom?.text}
+          image={data?.groom?.image}
+        />
       </div>
     </div>
   );
