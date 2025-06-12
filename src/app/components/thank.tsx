@@ -10,57 +10,74 @@ const Thank = () => {
 
   return (
     <div ref={ref} id="thank" className="h-screen flex flex-col">
-      <div className="flex-1 flex items-center justify-center flex-col">
+      <div className="relative w-[100%] h-[100%] ">
         <motion.div
           initial={{
             opacity: 0,
           }}
           whileInView={{
-            opacity: 100,
+            opacity: 1,
             transition: {
-              duration: 0.8,
+              duration: 0.5,
               ease: "easeInOut",
             },
           }}
-          className="w-[300px] h-[276px] relative flex items-center justify-center"
+          className="w-[100%] h-[100%]"
         >
           <img
             style={{
-              position: "absolute",
-              left: "52%",
-              top: "56%",
-              transform: "translate(-50%,-50%)",
+              objectPosition: "50% 30%",
             }}
-            src={"/footer-couple-pic-frame.png"}
-          />
-          <img
-            src={"/anhcuoi.webp"}
-            className="w-[225px] h-[225px] rounded-full"
+            src={"/gallery/12.jpg"}
+            className="w-[100%] h-[100%] object-cover"
           />
         </motion.div>
 
-        <motion.div
-          initial={{
-            y: 100,
+        <div className="overlay"></div>
+
+        <div
+          style={{
+            transform: "translate(-50%, -50%)",
           }}
-          whileInView={{
-            y: 0,
-            transition: {
-              duration: 0.8,
-              ease: "easeInOut",
-            },
-          }}
-          className={clsx(``, sectionTextColor ? sectionTextColor : "")}
+          className={clsx(
+            `absolute top-[20%] left-[50%] text-white`,
+            sectionTextColor ? sectionTextColor : ""
+          )}
         >
-          <h2 className="font-[Imperial_Script] text-[55px] text-center">
+          <motion.h2
+            initial={{
+              y: 40,
+            }}
+            whileInView={{
+              y: 0,
+              transition: {
+                duration: 0.5,
+                ease: "easeInOut",
+              },
+            }}
+            className="font-[Imperial_Script] text-[40px] text-center"
+          >
             Thank you
-          </h2>
-          <p className="text-[14px] text-center w-[300px]">
+          </motion.h2>
+          <motion.p
+            initial={{
+              y: -40,
+            }}
+            whileInView={{
+              y: 0,
+              transition: {
+                duration: 0.5,
+                ease: "easeInOut",
+              },
+            }}
+            className="text-[13px] text-center w-[300px]"
+          >
             Sự hiện diện của Quý vị là niềm vinh hạnh cho gia đình chúng tôi.
             Chân thành cảm ơn!
-          </p>
-        </motion.div>
+          </motion.p>
+        </div>
       </div>
+
       <div className="py-1 text-center text-white bg-red-600 text-[13px]">
         Made by akira
       </div>

@@ -15,9 +15,9 @@ const Image = ({
 }) => {
   return (
     <motion.div initial={initial} ref={scope} className="h-[130px]">
-      <div className="w-fit border-x-6 border-t-6 border-b-12 border-white">
+      <div className="w-fit border-x-6 border-t-6 border-b-12 border-white bg-white">
         <img
-          className="w-[180px] h-[100px] max-sm:w-[170px] max-sm:h-[90px]"
+          className="w-[180px] h-[100px] max-sm:w-[170px] max-sm:h-[90px] object-contain"
           src={url}
         />
       </div>
@@ -193,7 +193,7 @@ const Timeline = () => {
               opacity: 0.2,
             }}
             scope={scope1}
-            url={"/background.jpg"}
+            url={"/story/1.webp"}
           />
           <Text
             initial={{
@@ -201,7 +201,7 @@ const Timeline = () => {
               opacity: 0.2,
             }}
             scope={scope3}
-            year={2019}
+            year={"11.2024"}
             text="Hẹn hò"
             align="right"
           />
@@ -211,7 +211,7 @@ const Timeline = () => {
               opacity: 0.2,
             }}
             scope={scope5}
-            url={"/background.jpg"}
+            url={"/story/3.webp"}
           />
           <Text
             initial={{
@@ -219,7 +219,7 @@ const Timeline = () => {
               opacity: 0.2,
             }}
             scope={scope7}
-            year={2024}
+            year={"07.2025"}
             text="Ngày chung đôi"
             align="right"
           />
@@ -345,7 +345,7 @@ const Timeline = () => {
               opacity: 0.2,
             }}
             scope={scope2}
-            year={2018}
+            year={"09.2024"}
             text="Lần đầu gặp gỡ"
           />
           <Image
@@ -354,7 +354,7 @@ const Timeline = () => {
               opacity: 0.2,
             }}
             scope={scope4}
-            url={"/background.jpg"}
+            url={"/story/1.webp"}
           />
           <Text
             initial={{
@@ -362,7 +362,7 @@ const Timeline = () => {
               opacity: 0.2,
             }}
             scope={scope6}
-            year={2023}
+            year={"06.2025"}
             text="Cầu hôn"
           />
           <Image
@@ -371,7 +371,7 @@ const Timeline = () => {
               opacity: 0.2,
             }}
             scope={scope8}
-            url={"/background.jpg"}
+            url={"/story/4.webp"}
           />
         </motion.div>
       </div>

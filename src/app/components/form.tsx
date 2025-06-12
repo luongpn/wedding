@@ -1,9 +1,14 @@
 "use client";
-import { sectionTextColor, wedding_events } from "@/constants/constants";
+import {
+  options,
+  regardOptions,
+  sectionTextColor,
+  wedding_events,
+} from "@/constants/constants";
 import useUpdateActiveNav from "@/hooks/useUpdateActiveNav";
 import clsx from "clsx";
 import React from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { motion } from "motion/react";
 import Checkbox from "./checkbox";
 import events from "events";
@@ -11,10 +16,15 @@ import { ToastContainer, toast } from "react-toastify";
 
 type Inputs = {
   name: string;
-  phone: string;
-  isAttend: string;
-  attendEvents?: any[];
+  attend: any;
+  events?: any[];
+  guest?: any[];
+  see_regard: any;
+  regard: string;
 };
+
+import Select from "react-select";
+import AxiosClient from "@/apis/AxiosClient";
 
 const Form = () => {
   const {
@@ -22,9 +32,20 @@ const Form = () => {
     handleSubmit,
     watch,
     formState: { errors },
+    control,
+    reset,
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = (data) => {
+    data.attend = data.attend.value;
+    data.see_regard = data.see_regard.value;
+
+    console.log("🚀 ~ Form ~ data:", data);
+
     toast("Cảm ơn anh/chị đã điền thông tin");
+
+    AxiosClient.post("/api/regard", data).then((res) => {
+      reset();
+    });
   };
   const ref = React.useRef<any>(null);
   useUpdateActiveNav(ref);
@@ -61,13 +82,13 @@ const Form = () => {
           className="w-[600px] max-sm:w-[85vw]"
         >
           <div>
-            <label className="block font-[520]">
-              Họ và tên
+            <label className="block font-[520] text-[14px]">
+              Tên của bạn là gì
               <span className="text-red-400 ml-1">*</span>
             </label>
             <input
-              className="w-[100%] rounded-[5px] px-4 py-2 border-1 outline-0 border-gray-300"
-              placeholder="Họ và tên"
+              className="w-[100%] rounded-[5px] px-4 py-2 border-1 outline-0 border-gray-300 bg-white"
+              placeholder="Nhập tên của bạn"
               defaultValue=""
               {...register("name", { required: true })}
             />
@@ -80,100 +101,134 @@ const Form = () => {
           </div>
 
           <div className="mt-2">
-            <label className="block font-[520]">
-              Số điện thoại<span className="text-red-400 ml-1">*</span>
+            <label className="block font-[520] text-[14px]">
+              Bạn sẽ đến chứ <span className="text-red-400 ml-1">*</span>
             </label>
-            <input
-              className="w-[100%] rounded-[5px] px-4 py-2 border-1 outline-0 border-gray-300"
-              placeholder="Số điện thoại"
-              defaultValue=""
-              {...register("phone", { required: true })}
+
+            <Controller
+              control={control}
+              name="attend"
+              rules={{ required: true }}
+              render={({ field: { onChange, onBlur, value, ref } }) => (
+                <Select
+                  placeholder="Bạn sẽ đến chứ"
+                  value={value}
+                  options={options}
+                  onChange={(value: any) => {
+                    onChange(value);
+                  }}
+                />
+              )}
             />
-            {errors.name && (
+
+            {errors.attend && (
               <span className="text-red-400 text-[14px]">
-                Vui lòng nhập số điện thoại
+                Vui lòng chọn bạn sẽ đến chứ{" "}
               </span>
             )}
           </div>
 
-          <label className="block font-[520]">
-            Anh/chị có thể tham gia lễ cưới không?{" "}
+          <label className="block font-[520] text-[14px]">
+            Bạn sẽ tham dự bữa tiệc nào?{" "}
             <span className="text-red-400 ml-1">*</span>
           </label>
-          <div className="">
-            <div className="flex gap-10">
-              <div className="inline-flex items-center">
-                <label className="relative flex items-center cursor-pointer">
-                  <input
-                    type="radio"
-                    value="1"
-                    {...register("isAttend", { required: true })}
-                    className="peer h-5 w-5 cursor-pointer appearance-none rounded-full border border-slate-300 checked:border-slate-400 transition-all"
-                  />
-                  <span className="absolute bg-red-400 w-3 h-3 rounded-full opacity-0 peer-checked:opacity-100 transition-opacity duration-200 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></span>
-                </label>
-                <label
-                  className="ml-2 text-slate-600 cursor-pointer text-sm"
-                  htmlFor="html"
-                >
-                  Có
-                </label>
+
+          <div className="flex gap-2 flex-wrap  w-[100%] rounded-[5px] px-4 py-2 border-1 outline-0 border-gray-300 bg-white">
+            {wedding_events.map((i) => (
+              <div key={i.id} className="flex items-center gap-1">
+                <input
+                  className="accent-pink-500 w-[15px] h-[15px]"
+                  type="checkbox"
+                  value={i.id}
+                  {...register("events", { required: true })}
+                />
+
+                <span>{i.label}</span>
               </div>
-              <div className="inline-flex items-center">
-                <label
-                  className="relative flex items-center cursor-pointer"
-                  htmlFor="react"
-                >
-                  <input
-                    value="0"
-                    type="radio"
-                    {...register("isAttend", { required: true })}
-                    className="peer h-5 w-5 cursor-pointer appearance-none rounded-full border border-slate-300 checked:border-slate-400 transition-all"
-                    id="react"
-                  />
-                  <span className="absolute bg-red-400 w-3 h-3 rounded-full opacity-0 peer-checked:opacity-100 transition-opacity duration-200 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></span>
-                </label>
-                <label
-                  className="ml-2 text-slate-600 cursor-pointer text-sm"
-                  htmlFor="react"
-                >
-                  Không
-                </label>
+            ))}
+          </div>
+
+          {errors.events && (
+            <div className="text-red-400 text-[14px]">
+              Vui lòng chọn bạn sẽ tham gia bữa tiệc nào
+            </div>
+          )}
+
+          <label className="block font-[520] text-[14px]">
+            Bạn là khách mời của ai?
+          </label>
+
+          <div className="flex gap-2 flex-wrap max-sm:block">
+            <div className="flex gap-2 flex-wrap rounded-[5px] px-4 py-2 border-1 outline-0 border-gray-300 bg-white">
+              <div className="flex items-center gap-1">
+                <input
+                  className="accent-pink-500 w-[15px] h-[15px]"
+                  type="checkbox"
+                  value={"bride"}
+                  {...register("guest", { required: true })}
+                />
+
+                <span>Cô dâu</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <input
+                  className="accent-pink-500 w-[15px] h-[15px]"
+                  type="checkbox"
+                  value={"groom"}
+                  {...register("guest", { required: true })}
+                />
+
+                <span>Chú rể</span>
               </div>
             </div>
 
-            {errors.isAttend && (
-              <span className="text-red-400 text-[14px]">
-                Vui lòng chọn có hoặc không
-              </span>
-            )}
+            <div className="flex gap-2 flex-wrap flex-1 rounded-[5px] px-4 py-2 border-1 outline-0 border-gray-300 bg-white">
+              <Controller
+                control={control}
+                name="see_regard"
+                rules={{ required: true }}
+                render={({ field: { onChange, onBlur, value, ref } }) => (
+                  <Select
+                    className="!w-[100%]"
+                    placeholder="Ai sẽ nhìn thấy lời chúc của bạn"
+                    value={value}
+                    options={regardOptions}
+                    onChange={(value: any) => {
+                      onChange(value);
+                    }}
+                  />
+                )}
+              />
+            </div>
           </div>
 
-          {watchAllFields.isAttend == "1" && (
-            <>
-              <div className="text-[12px] mt-2">Sự kiện sẽ tham dự</div>
+          {errors.guest && (
+            <div className="text-red-400 text-[14px]">
+              Vui lòng chọn bạn là khách mời của ai
+            </div>
+          )}
 
-              <div className="flex gap-2 flex-wrap">
-                {wedding_events.map((i) => (
-                  <div key={i.id} className="flex items-center gap-1">
-                    <input
-                      className="accent-pink-500 w-[15px] h-[15px]"
-                      type="checkbox"
-                      value={i.id}
-                      {...register("attendEvents", { required: true })}
-                    />
+          {errors.see_regard && (
+            <div className="text-red-400 text-[14px]">
+              Vui lòng chọn ai sẽ nhìn thấy lời chúc của bạn
+            </div>
+          )}
 
-                    <span>{i.label}</span>
-                  </div>
-                ))}
-              </div>
+          <label className="block font-[520] text-[14px]">
+            Gửi lời chúc
+            <span className="text-red-400 ml-1">*</span>
+          </label>
+          <textarea
+            className="w-[100%] rounded-[5px] px-4 py-2 border-1 outline-0 border-gray-300 bg-white"
+            placeholder="Gửi lời chúc của bạn đến cô dâu chú rể"
+            defaultValue=""
+            {...register("regard", { required: true })}
+          />
 
-              {errors.attendEvents && (
-                <span className="text-red-400 text-[14px]">
-                  Vui lòng chọn sự kiện
-                </span>
-              )}
-            </>
+          {errors.regard && (
+            <div className="text-red-400 text-[14px]">
+              Vui lòng nhập lời chúc
+            </div>
           )}
 
           <div className="flex justify-center mt-2">
@@ -184,9 +239,9 @@ const Form = () => {
               transition={{
                 duration: 0.4,
               }}
-              className="px-4 py-2 rounded-sm bg-[#fb2c36] cursor-pointer text-white"
+              className="px-4 py-2 uppercase rounded-sm bg-[#fb2c36] cursor-pointer text-white"
               type="submit"
-              value={"Gửi"}
+              value={"Xác nhận tham dự"}
             />
           </div>
         </form>

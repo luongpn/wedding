@@ -12,12 +12,6 @@ const Hero = () => {
   const [data, setData] = React.useState<any>(null);
   console.log("🚀 ~ BrideAndGroom ~ data:", data);
 
-  React.useEffect(() => {
-    AxiosClient.get("/api/config").then((res) => {
-      setData(res);
-    });
-  }, []);
-
   return (
     <div
       ref={ref}
@@ -49,7 +43,7 @@ const Hero = () => {
         >
           {data?.date?.text
             ? dayjs(data?.date?.text, "YYYY-MM-DD").format("DD.MM.YYYY")
-            : "04.04.2024"}
+            : "10.07.2025"}
         </motion.span>
       </div>
 

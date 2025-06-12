@@ -90,21 +90,25 @@ const SendGifts = () => {
               {
                 id: 1,
                 label: "QR Cô dâu",
+                image: "/bride_qr.jpg",
               },
               {
                 id: 2,
                 label: "QR Chú rể",
+                image: "/groom_qr.png",
               },
             ].map((i) => (
               <div key={i.id}>
                 <p className="font-[520] ml-1 text-[13px]">{i.label}</p>
-                <img src={"/qr.jpg"} className="max-sm:w-[100%] w-[300px]" />
+                <div className="h-[650px]">
+                  <img src={i.image} className="max-sm:w-[100%] w-[300px]" />
+                </div>
                 <motion.button
                   whileTap={{
                     scale: 0.9,
                   }}
                   onClick={() => {
-                    downloadImage("/qr.jpg");
+                    downloadImage(i.image);
                   }}
                   className="cursor-pointer bg-gray-400 text-[13px] text-white py-1 flex items-center justify-center rounded-sm w-[100%] mt-1"
                 >

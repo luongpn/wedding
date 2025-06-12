@@ -33,7 +33,7 @@ const BrideGroom = ({
             "max-sm:text-center"
           )}
         >
-          {name}
+          {isGroom ? "Huỳnh đức" : "Huyền trang"}
         </p>
       </div>
       <motion.div
@@ -51,8 +51,8 @@ const BrideGroom = ({
         )}
       >
         <img
-          className="w-[200px] h-[200px] max-sm:h-[330px] max-sm:w-[330px] rounded-full"
-          src={isGroom ? "/groom.webp" : "/bride.webp"}
+          className="w-[200px] h-[200px] max-sm:h-[330px] max-sm:w-[330px] rounded-full object-cover"
+          src={isGroom ? "/gallery/28.jpg" : "/gallery/10.jpg"}
         />
       </motion.div>
     </div>
@@ -65,13 +65,6 @@ const BrideAndGroom = () => {
 
   const [data, setData] = React.useState<any>(null);
   console.log("🚀 ~ BrideAndGroom ~ data:", data);
-
-  React.useEffect(() => {
-    AxiosClient.get("/api/config").then((res) => {
-      console.log("🚀 ~ AxiosClient.get ~ res:", res);
-      setData(res);
-    });
-  }, []);
 
   return (
     <div ref={ref} id="bride_and_groom" className="py-[20px] ">

@@ -30,27 +30,33 @@ export const navIds = [
   },
 ];
 
+export const options = [
+  { value: "yes", label: "Mình chắc chắn sẽ đến" },
+  { value: "maybe", label: "Mình có thể sẽ đến" },
+  { value: "no", label: "Tiếc quá mình không đến được" },
+];
+
+export const regardOptions = [
+  { value: "all", label: "Mọi người" },
+  { value: "bride_and_groom", label: "Chỉ cô dâu chú rể" },
+];
+
 export const wedding_events = [
   {
-    id: 1,
-    image: "",
-    time: "11:00 05.05.2025",
-    address: "Quảng trị",
-    label: "Tiệc nhà gái",
-  },
-  {
     id: 2,
-    image: "",
-    time: "11:00 05.05.2025",
-    address: "Quảng trị",
+    image: "/vuquy.webp",
+    time: "04.07.2025",
+    address: "Hương Hóa, Quảng Trị",
     label: "Lễ vu quy",
+    map: "https://maps.app.goo.gl/ev9BNVYFf3A5TEDv8",
   },
   {
     id: 3,
-    image: "",
-    time: "11:00 05.05.2025",
-    address: "Thanh hóa",
+    image: "/thanhhon.webp",
+    time: "10.07.2025",
+    address: "Vĩnh Lộc, Thanh Hóa",
     label: "Lễ thành hôn",
+    map: "https://maps.app.goo.gl/QWYaCvwRj7ZrikYr6",
   },
 ];
 

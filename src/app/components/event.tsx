@@ -45,14 +45,15 @@ const Event = () => {
             transition={{
               duration: 0.5,
             }}
-            className="bg-white p-3 h-[400px] w-[230px] shadow-md flex flex-col"
+            className="bg-white p-3 h-[400px] w-[230px] shadow-md flex flex-col rounded-md"
           >
-            <p className="text-[16px] font-[550] tracking-wider uppercase mb-2">
-              {i.label}
-            </p>
+            <div className="text-[16px] text-center font-[550] tracking-wider uppercase mb-2">
+              <span>{i.label}</span>
+              <div></div>
+            </div>
 
             <div className="h-[200px]">
-              <img src="/background.jpg" className="w-[100%] h-[100%]" />
+              <img src={i.image} className="w-[100%] h-[100%]" />
             </div>
 
             <div className="flex flex-col justify-between flex-1">
@@ -70,7 +71,7 @@ const Event = () => {
               <div>
                 <button
                   onClick={() => {
-                    let url = "https://maps.app.goo.gl/xa5tbRbTRnv5385YA";
+                    let url = i.map;
                     window.open(url, "_blank");
                   }}
                   className="bg-yellow-500 mt-2 py-1 cursor-pointer text-white w-[100%] rounded-md flex justify-center items-center gap-1 "
