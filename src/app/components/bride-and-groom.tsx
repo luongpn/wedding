@@ -33,7 +33,7 @@ const BrideGroom = ({
             "max-sm:text-center"
           )}
         >
-          {isGroom ? "Huỳnh đức" : "Huyền trang"}
+          {isGroom ? "Huỳnh Đức" : "Huyền Trang"}
         </p>
       </div>
       <motion.div

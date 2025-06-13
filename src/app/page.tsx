@@ -15,17 +15,16 @@ import SendGifts from "./components/send_gifts";
 import { ToastContainer } from "react-toastify";
 import Images from "./components/images";
 import Thank from "./components/thank";
+import Lottie from "lottie-react";
+import animationData from "@/assets/heart_anim.json";
 
 export default function Home() {
   const [isVolumeOn, setIsVolumeOn] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
   const audioRef = React.useRef<any>(null);
   console.log("🚀 ~ Home ~ audioRef:", audioRef);
 
   React.useEffect(() => {
-    console.log(
-      "🚀 ~ React.useEffect ~ audioRef.current.audioEl:",
-      audioRef.current.audioEl
-    );
     if (audioRef != null && audioRef.current != null) {
       if (isVolumeOn) {
         audioRef.current.audioEl.current.play();
@@ -35,7 +34,15 @@ export default function Home() {
     }
   }, [isVolumeOn, audioRef]);
 
-  return (
+  React.useEffect(() => {
+    setTimeout(() => setLoading(false), 1000);
+  }, []);
+
+  return loading ? (
+    <div className="h-screen w-screen fixed z-[100] bg-gray-400 flex items-center justify-center">
+      <Lottie animationData={animationData} loop={true} />
+    </div>
+  ) : (
     <>
       <div className="fixed bottom-10 left-2 z-10">
         <div
@@ -54,6 +61,7 @@ export default function Home() {
           controls
         />
       </div>
+
       <Snowfall
         color="red"
         style={{

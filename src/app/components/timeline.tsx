@@ -193,7 +193,7 @@ const Timeline = () => {
               opacity: 0.2,
             }}
             scope={scope1}
-            url={"/story/1.webp"}
+            url={"/timeline-1.jpg"}
           />
           <Text
             initial={{
@@ -201,7 +201,7 @@ const Timeline = () => {
               opacity: 0.2,
             }}
             scope={scope3}
-            year={"11.2024"}
+            year={"01.2025"}
             text="Hẹn hò"
             align="right"
           />
@@ -211,7 +211,7 @@ const Timeline = () => {
               opacity: 0.2,
             }}
             scope={scope5}
-            url={"/story/3.webp"}
+            url={"/timeline-3.jpg"}
           />
           <Text
             initial={{
@@ -345,7 +345,7 @@ const Timeline = () => {
               opacity: 0.2,
             }}
             scope={scope2}
-            year={"09.2024"}
+            year={"11.2024"}
             text="Lần đầu gặp gỡ"
           />
           <Image
@@ -354,7 +354,7 @@ const Timeline = () => {
               opacity: 0.2,
             }}
             scope={scope4}
-            url={"/story/1.webp"}
+            url={"/timeline-2.jpg"}
           />
           <Text
             initial={{
@@ -371,7 +371,7 @@ const Timeline = () => {
               opacity: 0.2,
             }}
             scope={scope8}
-            url={"/story/4.webp"}
+            url={"/timeline-4.jpg"}
           />
         </motion.div>
       </div>

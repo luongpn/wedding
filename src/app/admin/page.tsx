@@ -5,58 +5,71 @@ import React from "react";
 import dayjs from "dayjs";
 import Pagination from "rc-pagination";
 import clsx from "clsx";
+import animationData from "@/assets/heart_anim.json";
+import Lottie from "lottie-react";
 
 const Item = ({ data }) => {
   console.log("🚀 ~ Item ~ data:", data);
   return (
-    <div className="bg-white p-4 rounded-md shadow-md mb-2">
-      <div>
-        <span>Tên: </span>
-        <span className="font-bold">{data?.name}</span>
+    <div className="bg-white p-5 rounded-md shadow-md mb-2">
+      <div className="grid grid-cols-4">
+        <div>Tên: </div>
+        <div className="font-bold col-span-3">{data?.name}</div>
       </div>
-      <div>
-        <span>Bạn sẽ đến chứ: </span>
-        <span className="font-bold">
+
+      <hr className="text-gray-300" />
+
+      <div className="grid grid-cols-4">
+        <div>Bạn sẽ đến chứ: </div>
+        <div className="font-bold col-span-3">
           {options.find((x) => x.value == data?.attend)?.label}
-        </span>
+        </div>
       </div>
-      <div>
-        <span>Bạn sẽ tham dự bữa tiệc nào: </span>
-        <span className="font-bold">
+
+      <hr className="text-gray-300" />
+
+      <div className="grid grid-cols-4">
+        <div>Bạn sẽ tham dự bữa tiệc nào: </div>
+        <div className="font-bold col-span-3">
           {wedding_events
             .filter((x) => data?.events.includes(x.id.toString()))
             ?.map((x) => x.label)
             .join(", ")}
-        </span>
+        </div>
       </div>
 
-      <div>
-        <span>Bạn là khách mời của ai:</span>
-        <span className="font-bold">
+      <hr className="text-gray-300" />
+
+      <div className="grid grid-cols-4">
+        <div>Bạn là khách mời của ai:</div>
+        <div className="font-bold col-span-3">
           {[
             data?.guest?.includes("bride") && "Cô dâu",
             data?.guest?.includes("groom") && "Chú rể",
           ]
             .filter((x) => x)
             .join(", ")}
-        </span>
+        </div>
       </div>
+      <hr className="text-gray-300" />
 
-      <div>
-        <span>Ai sẽ nhìn thấy lời chúc của bạn:</span>
-        <span className="font-bold">
+      <div className="grid grid-cols-4">
+        <div>Ai sẽ nhìn thấy lời chúc của bạn:</div>
+        <div className="font-bold col-span-3">
           {regardOptions?.find((x) => x.value == data?.see_regard)?.label}
-        </span>
+        </div>
       </div>
+      <hr className="text-gray-300" />
 
-      <div>
+      <div className="grid grid-cols-4">
         <span>Lời chúc:</span>
-        <span className="font-bold">{data?.regard}</span>
+        <span className="font-bold col-span-3">{data?.regard}</span>
       </div>
+      <hr className="text-gray-300" />
 
-      <div>
+      <div className="grid grid-cols-4">
         <span>Ngày tạo:</span>
-        <span className="font-bold">
+        <span className="font-bold col-span-3">
           {data?.created_date &&
             dayjs(data?.created_date).format("HH:mm DD/MM/YYYY")}
         </span>
@@ -71,15 +84,17 @@ export default function Admin() {
   const [data, setData] = React.useState<any[]>([]);
   const [totalItemCount, setTotalItemCount] = React.useState(0);
   console.log("🚀 ~ Admin ~ totalItemCount:", totalItemCount);
-
+  const [loading, setLoading] = React.useState(true);
   React.useEffect(() => {
     AxiosClient.get("/api/regard", {
       params: { page: page, limit: pageSize },
-    }).then((res: any) => {
-      console.log("🚀 ~ React.useEffect ~ res:", res);
-      setData(res?.list);
-      setTotalItemCount(res?.count);
-    });
+    })
+      .then((res: any) => {
+        console.log("🚀 ~ React.useEffect ~ res:", res);
+        setData(res?.list);
+        setTotalItemCount(res?.count);
+      })
+      .finally(() => setLoading(false));
   }, [page, pageSize]);
 
   const divItemRender = (current, type, element) => {
@@ -111,7 +126,11 @@ export default function Admin() {
     );
   };
 
-  return (
+  return loading ? (
+    <div className="h-screen w-screen fixed z-[100] bg-gray-400 flex items-center justify-center">
+      <Lottie animationData={animationData} loop={true} />
+    </div>
+  ) : (
     <div className="p-5">
       {data.map((i) => (
         <Item data={i} key={i._id} />
