@@ -17,22 +17,10 @@ import Images from "./components/images";
 import Thank from "./components/thank";
 import Lottie from "lottie-react";
 import animationData from "@/assets/heart_anim.json";
+import Fab from "./components/fab/fab";
 
 export default function Home() {
-  const [isVolumeOn, setIsVolumeOn] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
-  const audioRef = React.useRef<any>(null);
-  console.log("🚀 ~ Home ~ audioRef:", audioRef);
-
-  React.useEffect(() => {
-    if (audioRef != null && audioRef.current != null) {
-      if (isVolumeOn) {
-        audioRef.current.audioEl.current.play();
-      } else {
-        audioRef.current.audioEl.current.pause();
-      }
-    }
-  }, [isVolumeOn, audioRef]);
 
   React.useEffect(() => {
     setTimeout(() => setLoading(false), 1000);
@@ -44,7 +32,8 @@ export default function Home() {
     </div>
   ) : (
     <>
-      <div className="fixed bottom-10 left-2 z-10">
+      <Fab />
+      {/* <div className="fixed bottom-10 left-2 z-10">
         <div
           onClick={() => setIsVolumeOn(!isVolumeOn)}
           className="bg-pink-400 cursor-pointer outline-1 outline-pink-400 outline-offset-1  text-white w-[40px] h-[40px] text-[20px] rounded-full flex items-center justify-center"
@@ -60,7 +49,7 @@ export default function Home() {
           src="song.mp3"
           controls
         />
-      </div>
+      </div> */}
 
       <Snowfall
         color="red"
