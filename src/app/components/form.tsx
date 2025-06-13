@@ -13,7 +13,7 @@ import { motion } from "motion/react";
 import Checkbox from "./checkbox";
 import events from "events";
 import { ToastContainer, toast } from "react-toastify";
-
+import InfiniteScroll from "react-infinite-scroll-component";
 type Inputs = {
   name: string;
   attend: any;
@@ -25,6 +25,67 @@ type Inputs = {
 
 import Select from "react-select";
 import AxiosClient from "@/apis/AxiosClient";
+
+const Regards = () => {
+  const [data, setData] = React.useState<any[]>([]);
+  console.log("🚀 ~ Regards ~ data:", data);
+  const [totalItemCount, setTotalItemCount] = React.useState(0);
+  const [page, setPage] = React.useState(1);
+  React.useEffect(() => {
+    AxiosClient.get("/api/regard-client", { params: { page, limit: 20 } }).then(
+      (res: any) => {
+        console.log("🚀 ~ AxiosClient.get ~ res:", res);
+        setData((prev) => [
+          ...prev,
+          ...(res?.list
+            ? res?.list?.filter(
+                (x) => !prev?.map((i) => i._id)?.includes(x._id)
+              )
+            : []),
+        ]);
+        setTotalItemCount(res?.count || 0);
+      }
+    );
+  }, [page]);
+
+  return (
+    <motion.div
+      id="scrollableRegardDiv"
+      className="p-2 bg-white max-sm:w-[90vw] w-[600px] border-t-10 border-5 border-[#fb2c36]"
+      style={{
+        height: 300,
+        overflow: "auto",
+        display: "flex",
+      }}
+    >
+      <InfiniteScroll
+        dataLength={data.length}
+        next={() => {
+          console.log("next");
+          setPage(page + 1);
+        }}
+        hasMore={data.length < totalItemCount}
+        loader={<h4></h4>}
+        scrollableTarget="scrollableRegardDiv"
+      >
+        {data.map((i) => (
+          <div
+            key={i._id}
+            style={{
+              strokeDasharray: 10,
+            }}
+            className="border-b-[1px] w-[100%] border-dashed pb-2"
+          >
+            <div>
+              <p className="font-bold text-[16px]">{i.name}</p>
+              <span>{i.regard}</span>
+            </div>
+          </div>
+        ))}
+      </InfiniteScroll>
+    </motion.div>
+  );
+};
 
 const Form = () => {
   const {
@@ -247,6 +308,9 @@ const Form = () => {
         </form>
       </div>
 
+      <div className="flex justify-center mt-4">
+        <Regards />
+      </div>
       <ToastContainer />
     </div>
   );

@@ -61,7 +61,7 @@ const Hero = () => {
 
       <div className="overlay"></div>
 
-      <div className="flex z-[99] flex-col text-[40px] items-center justify-center text-white font-[Imperial_Script]">
+      <div className="flex z-[99] flex-col max-sm:text-[50px] text-[60px] items-center justify-center text-white font-[Imperial_Script]">
         <motion.p
           initial={{
             y: "-100%",
