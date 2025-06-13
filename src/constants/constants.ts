@@ -43,9 +43,17 @@ export const regardOptions = [
 
 export const wedding_events = [
   {
+    id: 1,
+    image: "/anhoi.webp",
+    time: "16:00 03.07.2025",
+    address: "Hương Hóa, Quảng Trị",
+    label: "Lễ ăn hỏi",
+    map: "https://maps.app.goo.gl/ev9BNVYFf3A5TEDv8",
+  },
+  {
     id: 2,
     image: "/vuquy.webp",
-    time: "04.07.2025",
+    time: "11:00 04.07.2025",
     address: "Hương Hóa, Quảng Trị",
     label: "Lễ vu quy",
     map: "https://maps.app.goo.gl/ev9BNVYFf3A5TEDv8",
@@ -53,7 +61,7 @@ export const wedding_events = [
   {
     id: 3,
     image: "/thanhhon.webp",
-    time: "10.07.2025",
+    time: "09:00 10.07.2025",
     address: "Vĩnh Lộc, Thanh Hóa",
     label: "Lễ thành hôn",
     map: "https://maps.app.goo.gl/QWYaCvwRj7ZrikYr6",
