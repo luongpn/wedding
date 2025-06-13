@@ -11,7 +11,7 @@ const Nav = () => {
   console.log("🚀 ~ Nav ~ activeNav:", activeNav);
 
   return (
-    <nav className="fixed right-4 top-[50%]">
+    <nav className="fixed right-4 top-[50%] z-[100]">
       <ul className="flex flex-col gap-2 rounded-full p-2 h-fit relative">
         <motion.div
           className={clsx(
