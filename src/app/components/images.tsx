@@ -29,7 +29,7 @@ const Images = () => {
       </div>
 
       <div className="grid grid-cols-5 max-xl:grid-cols-4 max-sm:grid-cols-2 gap-2 px-[150px] max-sm:px-[5px] max-md:grid-cols-4 max-md:px-[50px]">
-        {Array.from({ length: 49 }, (_, i) => i + 1).map((i) => (
+        {Array.from({ length: 11 }, (_, i) => i + 1).map((i) => (
           <motion.div
             key={i}
             whileHover={{
@@ -47,7 +47,7 @@ const Images = () => {
             className="flex items-center justify-center w-[100%] cursor-pointer"
           >
             <img
-              src={`/gallery/${i}.jpg`}
+              src={`/gallery2/${i}.jpg`}
               style={{
                 boxShadow: "box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px",
               }}
