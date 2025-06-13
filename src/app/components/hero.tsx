@@ -93,7 +93,7 @@ const Hero = () => {
       </div>
 
       <div className="flex justify-center">
-        <div className="glass w-fit px-8 py-2 flex z-[99] flex-col text-[18px] items-center justify-center text-white uppercase">
+        <div className="bg-red-500 rounded-md w-fit px-8 py-2 flex z-[99] flex-col text-[18px] items-center justify-center text-white uppercase">
           <motion.p
             initial={{ scale: 0 }}
             animate={{
