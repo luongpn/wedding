@@ -52,12 +52,12 @@ export async function GET(request: NextRequest) {
     $or: [
       {
         name: {
-          $regex: search,
+          $regex: /search/,
         },
       },
       {
         regard: {
-          $regex: search,
+          $regex: /search/,
         },
       },
     ],
