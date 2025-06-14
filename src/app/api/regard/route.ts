@@ -31,17 +31,17 @@ export async function GET(request: NextRequest) {
     ...(search && {
       $or: [
         {
-          name: {
-            $regex: /search/,
-          },
+          name: { $regex: search, $options: "i" },
         },
         {
           regard: {
-            $regex: /search/,
+            $regex: search,
+            $options: "i",
           },
         },
       ],
     }),
+
     ...(events && {
       events: {
         $all: events,
