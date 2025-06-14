@@ -15,6 +15,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { vi } from "date-fns/locale/vi";
 import useDebounce from "@/hooks/useDebounce";
 registerLocale("vi", vi);
+import Select from "react-select";
 
 const Item = ({ data }) => {
   console.log("🚀 ~ Item ~ data:", data);
@@ -89,6 +90,10 @@ const Item = ({ data }) => {
 const Filter = ({ returnFilter }) => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const [attend, setAttend] = useState<any>(null);
+  const [events, setEvents] = useState<any[]>([]);
+  const [guest, setGuest] = useState<any[]>([]);
+  const [seeRegard, setSeeRegard] = useState<any>(null);
 
   const [search, setSearch] = React.useState("");
   const searchDebounce = useDebounce(search, 300);
@@ -98,12 +103,19 @@ const Filter = ({ returnFilter }) => {
   }, [searchDebounce]);
 
   React.useEffect(() => {
-    returnFilter({ from_date: startDate });
-  }, [startDate]);
-
-  React.useEffect(() => {
-    returnFilter({ to_date: endDate });
-  }, [endDate]);
+    returnFilter({
+      from_date: startDate,
+      to_date: endDate,
+      attend: attend?.value,
+      events:
+        events && events?.length > 0
+          ? events.map((i) => i.value).join(",")
+          : "",
+      guest:
+        guest && guest?.length > 0 ? guest.map((i) => i.value).join(",") : "",
+      see_regard: seeRegard?.value,
+    });
+  }, [startDate, endDate, attend, events, guest, seeRegard]);
 
   return (
     <div className="mb-2 flex flex-wrap gap-2 bg-white p-4 shadow-md rounded-md">
@@ -139,6 +151,75 @@ const Filter = ({ returnFilter }) => {
           onChange={(date) => setEndDate(date)}
         />
       </div>
+
+      <div>
+        <label className="block font-[550]">Bạn sẽ đến chứ</label>
+
+        <Select
+          placeholder="Bạn sẽ đến chứ"
+          value={attend}
+          options={options}
+          onChange={(value: any) => setAttend(value)}
+        />
+      </div>
+
+      <div>
+        <label className="block font-[550]">Bạn sẽ tham dự bữa tiệc nào?</label>
+
+        <Select
+          placeholder="Bạn sẽ tham dự bữa tiệc nào?"
+          value={events}
+          options={wedding_events.map((i) => ({
+            value: i.id,
+            label: i.label,
+          }))}
+          onChange={(value: any) => setEvents(value)}
+          isMulti
+        />
+      </div>
+
+      <div>
+        <label className="block font-[550]">Bạn là khách mời của ai?</label>
+
+        <Select
+          placeholder="Bạn là khách mời của ai?"
+          value={guest}
+          options={[
+            {
+              value: "bride",
+              label: "Cô dâu",
+            },
+            {
+              value: "groom",
+              label: "Chú rể",
+            },
+          ]}
+          onChange={(value: any) => setGuest(value)}
+          isMulti
+        />
+      </div>
+
+      <div>
+        <label className="block font-[550]">
+          Ai sẽ nhìn thấy lời chúc của bạn
+        </label>
+
+        <Select
+          placeholder="Ai sẽ nhìn thấy lời chúc của bạn"
+          value={seeRegard}
+          options={[
+            {
+              value: "all",
+              label: "Tất cả",
+            },
+            {
+              value: "bride_and_groom",
+              label: "Chỉ cô dâu chú rể",
+            },
+          ]}
+          onChange={(value: any) => setSeeRegard(value)}
+        />
+      </div>
     </div>
   );
 };
@@ -157,11 +238,11 @@ export default function Admin() {
 
   React.useEffect(() => {
     setIsDataLoading(true);
+    console.log("🚀 ~ React.useEffect ~ filterQuery:", filterQuery);
     AxiosClient.get("/api/regard", {
       params: { page: page, limit: pageSize, ...filterQuery },
     })
       .then((res: any) => {
-        console.log("🚀 ~ React.useEffect ~ res:", res);
         setData(res?.list);
         setTotalItemCount(res?.count);
       })

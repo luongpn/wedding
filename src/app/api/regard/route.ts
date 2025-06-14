@@ -14,22 +14,50 @@ export async function GET(request: NextRequest) {
   const search = request.nextUrl?.searchParams?.get("search") || "";
   const from_date = request.nextUrl?.searchParams?.get("from_date") || "";
   const to_date = request.nextUrl?.searchParams?.get("to_date") || "";
+  const attend = request.nextUrl?.searchParams?.get("attend") || "";
+  const see_regard = request.nextUrl?.searchParams?.get("see_regard") || "";
+
+  const events = request.nextUrl?.searchParams?.get("events")
+    ? request.nextUrl?.searchParams?.get("events")?.split(",")
+    : "";
+
+  const guest = request.nextUrl?.searchParams?.get("guest")
+    ? request.nextUrl?.searchParams?.get("guest")?.split(",")
+    : "";
 
   const skip = (page - 1) * limit;
 
-  let list = await Regard.find({
-    $or: [
-      {
-        name: {
-          $regex: search,
+  const filter = {
+    ...(search && {
+      $or: [
+        {
+          name: {
+            $regex: /search/,
+          },
         },
-      },
-      {
-        regard: {
-          $regex: search,
+        {
+          regard: {
+            $regex: /search/,
+          },
         },
+      ],
+    }),
+    ...(events && {
+      events: {
+        $all: events,
       },
-    ],
+    }),
+    ...(guest && {
+      guest: {
+        $all: guest,
+      },
+    }),
+    ...(attend && {
+      attend: attend,
+    }),
+    ...(see_regard && {
+      see_regard: see_regard,
+    }),
     ...(from_date
       ? {
           created_date: {
@@ -44,38 +72,13 @@ export async function GET(request: NextRequest) {
           },
         }
       : {}),
-  })
+  };
+
+  let list = await Regard.find(filter)
     .sort({ _id: -1 })
     .skip(skip)
     .limit(limit);
-  let count = await Regard.countDocuments({
-    $or: [
-      {
-        name: {
-          $regex: /search/,
-        },
-      },
-      {
-        regard: {
-          $regex: /search/,
-        },
-      },
-    ],
-    ...(from_date
-      ? {
-          created_date: {
-            $gte: from_date,
-          },
-        }
-      : {}),
-    ...(to_date
-      ? {
-          created_date: {
-            $lt: to_date,
-          },
-        }
-      : {}),
-  });
+  let count = await Regard.countDocuments(filter);
   return Response.json({ list, count, page, limit });
 }
 
