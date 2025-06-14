@@ -11,6 +11,10 @@ export const navIds = [
     id: "event",
     label: "Sự kiện",
   },
+  {
+    id: "timer",
+    label: "We will become a family in",
+  },
   { id: "story", label: "Câu chuyện" },
   {
     id: "form",

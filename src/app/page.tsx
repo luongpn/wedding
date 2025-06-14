@@ -18,6 +18,7 @@ import Thank from "./components/thank";
 import Lottie from "lottie-react";
 import animationData from "@/assets/heart_anim.json";
 import Fab from "./components/fab/fab";
+import Timer from "./components/timer";
 
 export default function Home() {
   const [loading, setLoading] = React.useState(true);
@@ -67,6 +68,8 @@ export default function Home() {
         <BrideAndGroom />
         <hr className="opacity-55 text-gray-400" />
         <Event />
+        <hr className="opacity-55 text-gray-400" />
+        <Timer />
         <hr className="opacity-55 text-gray-400" />
         <Timeline />
         <hr className="opacity-55 text-gray-400" />
