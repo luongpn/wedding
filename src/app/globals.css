@@ -51,3 +51,7 @@ body {
 .infinite-scroll-component__outerdiv {
   width: 100%;
 }
+
+.rdrDefinedRangesWrapper {
+  display: none;
+}

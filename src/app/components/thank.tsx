@@ -78,7 +78,7 @@ const Thank = () => {
         </div>
       </div>
 
-      <div className="py-1 text-center text-white bg-red-600 text-[13px]">
+      <div className="py-1 text-center text-white bg-red-600 text-[12px] uppercase">
         Made by akira
       </div>
     </div>

@@ -1,12 +1,20 @@
 "use client";
 import AxiosClient from "@/apis/AxiosClient";
 import { options, regardOptions, wedding_events } from "@/constants/constants";
-import React from "react";
+import React, { useState } from "react";
 import dayjs from "dayjs";
 import Pagination from "rc-pagination";
 import clsx from "clsx";
 import animationData from "@/assets/heart_anim.json";
+import dataLoading from "@/assets/data_loading.json";
+
 import Lottie from "lottie-react";
+import Input from "rc-input";
+import DatePicker, { registerLocale, setDefaultLocale } from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { vi } from "date-fns/locale/vi";
+import useDebounce from "@/hooks/useDebounce";
+registerLocale("vi", vi);
 
 const Item = ({ data }) => {
   console.log("🚀 ~ Item ~ data:", data);
@@ -78,6 +86,63 @@ const Item = ({ data }) => {
   );
 };
 
+const Filter = ({ returnFilter }) => {
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+
+  const [search, setSearch] = React.useState("");
+  const searchDebounce = useDebounce(search, 300);
+
+  React.useEffect(() => {
+    returnFilter({ search: searchDebounce });
+  }, [searchDebounce]);
+
+  React.useEffect(() => {
+    returnFilter({ from_date: startDate });
+  }, [startDate]);
+
+  React.useEffect(() => {
+    returnFilter({ to_date: endDate });
+  }, [endDate]);
+
+  return (
+    <div className="mb-2 flex flex-wrap gap-2 bg-white p-4 shadow-md rounded-md">
+      <div>
+        <label className="block mb-2.5 font-[550]">Tìm kiếm</label>
+        <Input
+          className="outline-none rounded-[5px] px-4 py-2 border-1 outline-0 border-gray-300 bg-white"
+          placeholder="Tìm kiếm"
+          allowClear
+          onChange={(e) => {
+            setSearch(e.target.value);
+          }}
+        />
+      </div>
+
+      <div>
+        <label className="block font-[550]">Ngày bắt đầu</label>
+
+        <DatePicker
+          className="outline-none rounded-[5px] px-4 py-2 border-1 outline-0 border-gray-300 bg-white"
+          locale="vi"
+          selected={startDate}
+          onChange={(date) => setStartDate(date)}
+        />
+      </div>
+
+      <div>
+        <label className="block font-[550]">Ngày kết thúc</label>
+        <DatePicker
+          className="outline-none rounded-[5px] px-4 py-2 border-1 outline-0 border-gray-300 bg-white"
+          locale="vi"
+          selected={endDate}
+          onChange={(date) => setEndDate(date)}
+        />
+      </div>
+    </div>
+  );
+};
+
 export default function Admin() {
   const [page, setPage] = React.useState(1);
   const [pageSize, setPageSize] = React.useState(10);
@@ -85,17 +150,34 @@ export default function Admin() {
   const [totalItemCount, setTotalItemCount] = React.useState(0);
   console.log("🚀 ~ Admin ~ totalItemCount:", totalItemCount);
   const [loading, setLoading] = React.useState(true);
+  const [isDataLoading, setIsDataLoading] = React.useState(true);
+
+  const [filterQuery, setFilterQuery] = React.useState({});
+  console.log("🚀 ~ Admin ~ filterQuery:", filterQuery);
+
   React.useEffect(() => {
+    setIsDataLoading(true);
     AxiosClient.get("/api/regard", {
-      params: { page: page, limit: pageSize },
+      params: { page: page, limit: pageSize, ...filterQuery },
     })
       .then((res: any) => {
         console.log("🚀 ~ React.useEffect ~ res:", res);
         setData(res?.list);
         setTotalItemCount(res?.count);
       })
-      .finally(() => setLoading(false));
-  }, [page, pageSize]);
+      .finally(() => {
+        setLoading(false);
+        setIsDataLoading(false);
+      });
+  }, [page, pageSize, filterQuery]);
+
+  const returnFilter = React.useCallback(
+    (filter: any) => {
+      setPage(1);
+      setFilterQuery({ ...filterQuery, ...filter });
+    },
+    [filterQuery]
+  );
 
   const divItemRender = (current, type, element) => {
     console.log("🚀 ~ divItemRender ~ current:", current);
@@ -132,9 +214,18 @@ export default function Admin() {
     </div>
   ) : (
     <div className="p-5">
-      {data.map((i) => (
-        <Item data={i} key={i._id} />
-      ))}
+      <Filter returnFilter={returnFilter} />
+      <div className="mb-2">
+        <span>Kết quả tìm kiếm: </span>
+        <span className="text-white p-1 bg-green-400 rounded-sm">
+          {totalItemCount}
+        </span>
+      </div>
+      {isDataLoading ? (
+        <Lottie animationData={dataLoading} loop={true} />
+      ) : (
+        data.map((i) => <Item data={i} key={i._id} />)
+      )}
 
       <div className="flex justify-center">
         <Pagination

@@ -11,10 +11,71 @@ export async function GET(request: NextRequest) {
     ? parseInt(request.nextUrl?.searchParams?.get("limit"))
     : 12;
 
+  const search = request.nextUrl?.searchParams?.get("search") || "";
+  const from_date = request.nextUrl?.searchParams?.get("from_date") || "";
+  const to_date = request.nextUrl?.searchParams?.get("to_date") || "";
+
   const skip = (page - 1) * limit;
 
-  let list = await Regard.find({}).sort({ _id: -1 }).skip(skip).limit(limit);
-  let count = await Regard.countDocuments({});
+  let list = await Regard.find({
+    $or: [
+      {
+        name: {
+          $regex: search,
+        },
+      },
+      {
+        regard: {
+          $regex: search,
+        },
+      },
+    ],
+    ...(from_date
+      ? {
+          created_date: {
+            $gte: from_date,
+          },
+        }
+      : {}),
+    ...(to_date
+      ? {
+          created_date: {
+            $lte: to_date,
+          },
+        }
+      : {}),
+  })
+    .sort({ _id: -1 })
+    .skip(skip)
+    .limit(limit);
+  let count = await Regard.countDocuments({
+    $or: [
+      {
+        name: {
+          $regex: search,
+        },
+      },
+      {
+        regard: {
+          $regex: search,
+        },
+      },
+    ],
+    ...(from_date
+      ? {
+          created_date: {
+            $gte: from_date,
+          },
+        }
+      : {}),
+    ...(to_date
+      ? {
+          created_date: {
+            $lt: to_date,
+          },
+        }
+      : {}),
+  });
   return Response.json({ list, count, page, limit });
 }
 

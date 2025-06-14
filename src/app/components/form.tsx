@@ -22,15 +22,19 @@ type Inputs = {
   see_regard: any;
   regard: string;
 };
-
+import Textarea from "rc-textarea";
 import Select from "react-select";
 import AxiosClient from "@/apis/AxiosClient";
+import { MdOutlineEmojiEmotions } from "react-icons/md";
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
 
-const Regards = () => {
+const Regards = React.memo(() => {
   const [data, setData] = React.useState<any[]>([]);
   console.log("🚀 ~ Regards ~ data:", data);
   const [totalItemCount, setTotalItemCount] = React.useState(0);
   const [page, setPage] = React.useState(1);
+
   React.useEffect(() => {
     AxiosClient.get("/api/regard-client", { params: { page, limit: 20 } }).then(
       (res: any) => {
@@ -39,7 +43,7 @@ const Regards = () => {
           ...prev,
           ...(res?.list
             ? res?.list?.filter(
-                (x) => !prev?.map((i) => i._id)?.includes(x._id)
+                (x: any) => !prev?.map((i) => i._id)?.includes(x._id)
               )
             : []),
         ]);
@@ -85,7 +89,7 @@ const Regards = () => {
       </InfiniteScroll>
     </motion.div>
   );
-};
+});
 
 const Form = () => {
   const {
@@ -111,6 +115,7 @@ const Form = () => {
   const ref = React.useRef<any>(null);
   useUpdateActiveNav(ref);
   const watchAllFields = watch(); // when pass nothing as argument, you are watching everything
+  const [openEmojiPicker, setOpenEmojiPicker] = React.useState(false);
 
   return (
     <div ref={ref} id="form" className="py-[20px] ">
@@ -279,12 +284,52 @@ const Form = () => {
             Gửi lời chúc
             <span className="text-red-400 ml-1">*</span>
           </label>
-          <textarea
+
+          <Controller
+            control={control}
+            name="regard"
+            rules={{ required: true }}
+            render={({ field: { onChange, onBlur, value, ref } }) => (
+              <div className="relative">
+                <Textarea
+                  className="rounded-[5px] px-4 py-2 border-1 outline-0 border-gray-300 bg-white w-[100%]"
+                  value={value}
+                  onChange={onChange}
+                  autoSize={{ minRows: 5 }}
+                />
+
+                <div className="flex justify-end ">
+                  <div
+                    onClick={() => setOpenEmojiPicker(!openEmojiPicker)}
+                    className="flex cursor-pointer items-center justify-center w-[35px] h-[35px] rounded-md bg-white shadow-md"
+                  >
+                    <img src={"/smile.png"} className="w-[17px] h-[17px]" />
+                  </div>
+                </div>
+                {openEmojiPicker && (
+                  <div className="absolute right-0 z-[100]">
+                    <Picker
+                      locale="vi"
+                      onClickOutside={() => {
+                        setOpenEmojiPicker(false);
+                      }}
+                      data={data}
+                      onEmojiSelect={(emoji: any) => {
+                        onChange((value || "") + emoji?.native);
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
+            )}
+          />
+
+          {/* <textarea
             className="w-[100%] rounded-[5px] px-4 py-2 border-1 outline-0 border-gray-300 bg-white"
             placeholder="Gửi lời chúc của bạn đến cô dâu chú rể"
             defaultValue=""
             {...register("regard", { required: true })}
-          />
+          /> */}
 
           {errors.regard && (
             <div className="text-red-400 text-[14px]">
