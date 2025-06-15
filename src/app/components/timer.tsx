@@ -110,16 +110,16 @@ const Timer = () => {
         </div>
         <div className="max-sm:mt-5 mt-10">
           <motion.ul
-            initial={{
-              y: -20,
-            }}
-            whileInView={{
-              y: 0,
-              transition: {
-                duration: 0.6,
-                ease: "easeInOut",
-              },
-            }}
+            // initial={{
+            //   y: -20,
+            // }}
+            // whileInView={{
+            //   y: 0,
+            //   transition: {
+            //     duration: 0.6,
+            //     ease: "easeInOut",
+            //   },
+            // }}
             className="flex justify-center gap-x-24 max-sm:gap-x-4 max-md:gap-x-4"
           >
             {[
@@ -139,15 +139,32 @@ const Timer = () => {
                 ref: secondRef,
                 text: "Giây",
               },
-            ].map((i) => (
+            ].map((i, index) => (
               <li
                 key={i.text}
                 className="flex flex-col items-center justify-center gap-2"
               >
-                <div
+                <motion.div
+                  initial={{
+                    scale: 0,
+                    opacity: 0,
+                  }}
+                  whileInView={{
+                    scale: 1,
+                    opacity: 1,
+
+                    transition: {
+                      duration: 0.4,
+                      ease: "easeInOut",
+                      scale: {
+                        type: "spring",
+                        bounce: 0.5,
+                      },
+                    },
+                  }}
                   className="text-[40px] max-sm:text-[20px] bg-red-500 text-white p-2 rounded-md w-[120px] max-sm:w-[80px] text-center"
                   ref={i.ref}
-                ></div>
+                ></motion.div>
                 <div className="italic text-[18px] text-white">{i.text}</div>
               </li>
             ))}

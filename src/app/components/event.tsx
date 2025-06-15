@@ -33,7 +33,7 @@ const Event = () => {
       </div>
 
       <div className="px-[100px] max-sm:px-[10px] flex justify-center flex-wrap gap-[20px] mt-5">
-        {wedding_events.map((i) => (
+        {wedding_events.map((i, index) => (
           <motion.div
             key={i.id}
             initial={{
@@ -43,7 +43,12 @@ const Event = () => {
               scale: 1,
             }}
             transition={{
-              duration: 0.5,
+              duration: 0.2,
+              delay: 0.2 * index,
+              scale: {
+                type: "spring",
+                bounce: 0.2,
+              },
             }}
             className="bg-white p-3 h-[400px] w-[230px] shadow-md flex flex-col rounded-md"
           >

@@ -292,7 +292,7 @@ const Form = () => {
             render={({ field: { onChange, onBlur, value, ref } }) => (
               <div className="relative">
                 <Textarea
-                  className="rounded-[5px] px-4 py-2 border-1 outline-0 border-gray-300 bg-white w-[100%]"
+                  className="rounded-[5px] px-4 py-2 border-1 outline-0 border-gray-300 bg-white w-[100%] mb-0"
                   value={value}
                   onChange={onChange}
                   autoSize={{ minRows: 5 }}
@@ -301,7 +301,7 @@ const Form = () => {
                 <div className="flex justify-end ">
                   <div
                     onClick={() => setOpenEmojiPicker(!openEmojiPicker)}
-                    className="flex cursor-pointer items-center justify-center w-[35px] h-[35px] rounded-md bg-white shadow-md"
+                    className="flex cursor-pointer items-center justify-center w-[35px] h-[35px] rounded-md bg-white border-[1px] border-solid border-gray-200"
                   >
                     <img src={"/smile.png"} className="w-[17px] h-[17px]" />
                   </div>

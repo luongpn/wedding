@@ -45,6 +45,10 @@ const BrideGroom = ({
         }}
         transition={{
           duration: 0.5,
+          scale: {
+            type: "spring",
+            bounce: 0.5,
+          },
         }}
         className={clsx(
           "shadow-md border-[5px] p-1 border-white w-fit rounded-full flex justify-end"
