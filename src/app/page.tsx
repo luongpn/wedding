@@ -6,7 +6,6 @@ import Event from "./components/event";
 import Hero from "./components/hero";
 import React from "react";
 import { CiVolumeHigh, CiVolumeMute } from "react-icons/ci";
-import Snowfall from "react-snowfall";
 import ReactAudioPlayer from "react-audio-player";
 import Nav from "./components/nav";
 import Timeline from "./components/timeline";
@@ -19,6 +18,7 @@ import Lottie from "lottie-react";
 import animationData from "@/assets/heart_anim.json";
 import Fab from "./components/fab/fab";
 import Timer from "./components/timer";
+import Snowfall from "./components/snowfall/Snowfall";
 
 export default function Home() {
   const [loading, setLoading] = React.useState(true);
@@ -52,15 +52,7 @@ export default function Home() {
         />
       </div> */}
 
-      <Snowfall
-        color="red"
-        style={{
-          position: "fixed",
-          width: "100vw",
-          height: "100vh",
-        }}
-        snowflakeCount={10}
-      />
+      <Snowfall />
 
       <Nav />
       <main>
