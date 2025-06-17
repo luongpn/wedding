@@ -38,6 +38,21 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Imperial+Script&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
           rel="stylesheet"
         />
+        <meta name="robots" content="noindex,nofollow" />
+        <meta name="google" content="nositelinkssearchbox" key="sitelinks" />
+        <meta name="google" content="notranslate" key="notranslate" />{" "}
+        <meta
+          name="description"
+          content="Đám cưới Huyền Trang & Huỳnh Đức"
+          key="desc"
+        />
+        <meta name="keywords" content="Đám cưới Huyền Trang & Huỳnh Đức" />
+        <meta property="og:title" content="Đám cưới Huyền Trang & Huỳnh Đức" />
+        <meta
+          property="og:description"
+          content="Đám cưới Huyền Trang & Huỳnh Đức"
+        />
+        <meta property="og:image" content="/gallery/1.jpg" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
